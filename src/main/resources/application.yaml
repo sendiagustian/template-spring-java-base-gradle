@@ -1,0 +1,39 @@
+application:
+  version: v1.0.0
+  name: base
+  desc: API documentation for API Base Spring Boot
+  contact:
+    name: Sendi Agustian
+    email: admin@sendistudio.id
+
+# Server configuration
+server:
+  error:
+    include-message: always
+    include-binding-errors: never
+    include-stacktrace: never
+
+# Debugging configuration
+devtools:
+  restart:
+    enabled: true
+    additional-paths: src/main/resources
+  add-properties: false
+
+spring:
+  # Banner configuration
+  banner:
+    location: "classpath:assets/banner.txt"
+
+  # External configuration files
+  config:
+    import:
+      - "classpath:properties/server.yaml"
+      - "classpath:properties/logging.yaml"
+
+  # Web configuration
+  mvc:
+    throw-exception-if-no-handler-found: true # Paksa throw error 404
+  web:
+    resources:
+      add-mappings: false # Matikan static resource (css/js) agar murni jadi API

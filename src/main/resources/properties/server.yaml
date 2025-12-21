@@ -1,0 +1,14 @@
+sendistudio:
+  server:
+    local:
+      address: 127.0.0.1
+      host: http://127.0.0.1
+      port: 5050
+    dev:
+      address: 0.0.0.0
+      host: https://example.com
+      port: 8080
+    prod:
+      address: 0.0.0.0
+      host: https://example.com
+      port: 8000

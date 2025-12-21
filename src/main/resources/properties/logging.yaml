@@ -1,0 +1,27 @@
+# Logging configuration
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        boot:
+          autoconfigure:
+            security:
+              servlet:
+                UserDetailsServiceAutoConfiguration: OFF
+        security:
+          config:
+            annotation:
+              authentication:
+                configuration:
+                  InitializeUserDetailsBeanManagerConfigurer: OFF
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}] [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}] [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: build/logs/app.log
+  logback:
+    rollingpolicy:
+      total-size-cap: 10MB
+      max-file-size: 1MB
+      max-history: 5
