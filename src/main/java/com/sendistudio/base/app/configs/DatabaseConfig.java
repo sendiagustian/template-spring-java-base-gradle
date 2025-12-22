@@ -33,22 +33,22 @@ public class DatabaseConfig {
 
         String activeProfile = env.getActiveProfiles().length > 0 ? env.getActiveProfiles()[0] : "local";
 
-        // Set MySQL driver
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        // Set PostgreSQL driver
+        dataSource.setDriverClassName("org.postgresql.Driver");
 
-        // Set MySQL connection
+        // Set PostgreSQL connection
         if ("dev".equals(activeProfile)) {
-            dataSource.setJdbcUrl("jdbc:mysql://" + databaseProperties.getDev().getHost() + ":"
+            dataSource.setJdbcUrl("jdbc:postgresql://" + databaseProperties.getDev().getHost() + ":"
                     + databaseProperties.getDev().getPort() + "/" + databaseProperties.getDev().getName());
             dataSource.setUsername(encryptUtil.decryptCredential(databaseProperties.getDev().getUser()));
             dataSource.setPassword(encryptUtil.decryptCredential(databaseProperties.getDev().getPass()));
         } else if ("prod".equals(activeProfile)) {
-            dataSource.setJdbcUrl("jdbc:mysql://" + databaseProperties.getProd().getHost() + ":"
+            dataSource.setJdbcUrl("jdbc:postgresql://" + databaseProperties.getProd().getHost() + ":"
                     + databaseProperties.getProd().getPort() + "/" + databaseProperties.getProd().getName());
             dataSource.setUsername(encryptUtil.decryptCredential(databaseProperties.getProd().getUser()));
             dataSource.setPassword(encryptUtil.decryptCredential(databaseProperties.getProd().getPass()));
         } else {
-            dataSource.setJdbcUrl("jdbc:mysql://" + databaseProperties.getLocal().getHost() + ":"
+            dataSource.setJdbcUrl("jdbc:postgresql://" + databaseProperties.getLocal().getHost() + ":"
                     + databaseProperties.getLocal().getPort() + "/" + databaseProperties.getLocal().getName());
             dataSource.setUsername(encryptUtil.decryptCredential(databaseProperties.getLocal().getUser()));
             dataSource.setPassword(encryptUtil.decryptCredential(databaseProperties.getLocal().getPass()));

@@ -31,7 +31,7 @@ dependencies {
 
 	// Database
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
-	implementation("mysql:mysql-connector-java:8.0.33")
+	implementation("org.postgresql:postgresql")
 	implementation("com.zaxxer:HikariCP:7.0.2")
 
 	// JWT

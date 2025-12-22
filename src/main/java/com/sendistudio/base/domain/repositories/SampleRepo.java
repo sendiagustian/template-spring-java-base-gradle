@@ -14,7 +14,7 @@ public class SampleRepo {
     private QueryUtil query;
 
     public List<String> getAll() {
-        String sql = "SELECT * FROM tbUsers";
+        String sql = "SELECT * FROM tb_users";
         return query.queryForList(sql, new TypeUtil.StringRowMapper("username"));
     }
 
