@@ -5,10 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import com.sendistudio.base.app.properties.AppProperties;
+import com.sendistudio.base.app.properties.DatabaseProperties;
 import com.sendistudio.base.app.properties.ServerProperties;
 
 @SpringBootApplication()
-@EnableConfigurationProperties({ AppProperties.class, ServerProperties.class })
+@EnableConfigurationProperties({ AppProperties.class, ServerProperties.class, DatabaseProperties.class })
 public class MainApplication {
 
 	/*

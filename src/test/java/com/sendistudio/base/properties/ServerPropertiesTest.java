@@ -1,4 +1,4 @@
-package com.sendistudio.base;
+package com.sendistudio.base.properties;
 
 import javax.sql.DataSource;
 

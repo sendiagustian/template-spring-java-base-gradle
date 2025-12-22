@@ -25,15 +25,35 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 
-	compileOnly("org.projectlombok:lombok")
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	// Database
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
+	implementation("mysql:mysql-connector-java:8.0.33")
+	implementation("com.zaxxer:HikariCP:7.0.2")
+
+	// JWT
+	implementation("io.jsonwebtoken:jjwt-api:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
+
+	// Security
+	implementation("org.springframework.boot:spring-boot-starter-security:4.0.1")
+
+	// annotation processor
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
-	testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.1")
+
+	// compile only
+	compileOnly("org.projectlombok:lombok")
+
+	// dev only
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+	// test
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.junit.platform:junit-platform-launcher")
 }
 

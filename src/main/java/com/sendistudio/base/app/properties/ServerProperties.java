@@ -1,14 +1,12 @@
 package com.sendistudio.base.app.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@ComponentScan
 @ConfigurationProperties(prefix = "sendistudio.server")
 public class ServerProperties {
     private Local local;

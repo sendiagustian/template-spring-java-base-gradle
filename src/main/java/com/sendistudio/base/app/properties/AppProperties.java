@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ConfigurationProperties("spring.application")
+@ConfigurationProperties("application")
 public class AppProperties {
 
     private String version;

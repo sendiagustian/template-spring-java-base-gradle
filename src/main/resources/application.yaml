@@ -30,6 +30,7 @@ spring:
     import:
       - "classpath:properties/server.yaml"
       - "classpath:properties/logging.yaml"
+      - "classpath:properties/database.yaml"
 
   # Web configuration
   mvc:
