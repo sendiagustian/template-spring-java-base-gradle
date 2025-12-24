@@ -10,19 +10,24 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ErrorUtil {
     public ErrorResponse errorNotFound(DataAccessException e) {
-        log.info("Data not found Error : " + e.getMessage());
+        log.warn("Data not found: {}", e.getMessage());
         return new ErrorResponse(false, "Data not found");
     }
 
     public ErrorResponse errorData(DataAccessException e) {
-        log.info("Data Error : " + e.getMessage());
+        log.error("Database error: {}", e.getMessage(), e);
         String safeMessage = "Data error: " + extractSafeMessage(e.getMessage());
         return new ErrorResponse(false, safeMessage);
     }
 
     public ErrorResponse errorServer(Exception e) {
-        log.info("Server Error : " + e.getMessage());
+        log.error("Server error: {}", e.getMessage(), e);
         return new ErrorResponse(false, "Server error: " + e.getMessage());
+    }
+
+    public ErrorResponse errorConnection(Exception e) {
+        log.error("Database connection error: {}", e.getMessage(), e);
+        return new ErrorResponse(false, "Database connection failed. Please try again later.");
     }
 
     private String extractSafeMessage(String message) {

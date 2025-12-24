@@ -28,6 +28,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+	implementation("io.github.resilience4j:resilience4j-spring-boot3:2.2.0")
+	implementation("org.springframework.boot:spring-boot-starter-aop:3.5.9")
 
 	// Database
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")

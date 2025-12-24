@@ -37,7 +37,6 @@ public class LogInterceptorMiddleware implements HandlerInterceptor {
         String logServiceTrx = request.getHeader("LOG-SERVICE-TRX");
 
         List<String> logExcludes = excludeEndpoint.getAllExcludes();
-        System.out.println("logExcludes: " + logExcludes);
 
         if (!logExcludes.stream().anyMatch(requestURI::startsWith)) {
             if (logServiceTrx == null || logServiceTrx.isEmpty()) {

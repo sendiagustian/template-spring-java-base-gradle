@@ -1,0 +1,22 @@
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 1 # Minimal 5 panggilan sebelum evaluasi
+        failureRateThreshold: 50 # Kalau 50% gagal, putus sirkuit
+        waitDurationInOpenState: 10s # Tunggu 10 detik baru coba nyambung lagi
+        permittedNumberOfCallsInHalfOpenState: 3 # Coba 3 panggilan saat setengah terbuka
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        recordExceptions:
+          - java.lang.RuntimeException
+          - org.springframework.jdbc.CannotGetJdbcConnectionException
+    instances:
+      userService:
+        baseConfig: default
+  retry:
+    configs:
+      default:
+        maxAttempts: 2
+        waitDuration: 1s
