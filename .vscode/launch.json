@@ -1,0 +1,13 @@
+{
+    "configurations": [
+    
+        {
+            "type": "java",
+            "name": "Spring Boot - Local",
+            "request": "launch",
+            "mainClass": "com.sendistudio.base.MainApplication",
+            "projectName": "demo",
+            "args": "--spring.profiles.active=local"
+        }
+    ]
+}
