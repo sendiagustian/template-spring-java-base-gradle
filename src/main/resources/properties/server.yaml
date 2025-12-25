@@ -1,7 +1,7 @@
 sendistudio:
   server:
     local:
-      address: 127.0.0.1
+      address: 0.0.0.0
       host: http://127.0.0.1
       port: 5050
     dev:
