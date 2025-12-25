@@ -1,0 +1,55 @@
+# Docker ignore file for optimal build context
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Build outputs
+build/
+bin/
+target/
+out/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Gradle
+.gradle/
+gradle-app.setting
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md
+HELP.md
+*.md
+
+# Scripts (exclude run scripts if not needed in container)
+*.bat
+runDev.bat
+runLocal.bat
+runProd.bat
+
+# Test results
+test-results/
+reports/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
