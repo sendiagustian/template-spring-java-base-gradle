@@ -18,7 +18,7 @@ public class ExcludeEndpoint {
     public ExcludeEndpoint() {
 
         // Health Check
-        allExcludes.add("/service-check");
+        allExcludes.add("/api/service-check");
 
         // Auth
         allExcludes.add("/api/auth/login");
