@@ -1,4 +1,4 @@
-package com.sendistudio.base.data.responses;
+package com.sendistudio.base.data.responses.global;
 
 import com.sendistudio.base.data.models.PagingModel;
 

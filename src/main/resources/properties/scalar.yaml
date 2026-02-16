@@ -1,0 +1,13 @@
+springdoc:
+  writer-with-order-by-keys: true
+  api-docs:
+    path: /api-docs # URL untuk file JSON mentah (OpenAPI spec)
+    enabled: true
+
+  swagger-ui:
+    enabled: false # Matikan Swagger UI klasik (opsional, kalau mau hemat resource)
+
+  scalar-ui:
+    path: /scalar # URL untuk membuka UI Scalar yang cantik
+    enabled: true # Pastikan ini aktif
+    # tags-sorter: alpha  # Opsional: urutkan tag endpoint sesuai abjad

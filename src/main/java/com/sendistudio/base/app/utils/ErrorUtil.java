@@ -3,7 +3,8 @@ package com.sendistudio.base.app.utils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-import com.sendistudio.base.data.responses.ErrorResponse;
+import com.sendistudio.base.data.responses.global.ErrorResponse;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -30,21 +31,26 @@ public class ErrorUtil {
         return new ErrorResponse(false, "Database connection failed. Please try again later.");
     }
 
-    private String extractSafeMessage(String message) {
-        if (message.contains("Duplicate entry")) {
-            return "Duplicate data entry.";
-        } else if (message.contains("bad SQL grammar")) {
-            return "Query grammer invalid operation.";
-        } else if (message.contains("Parameter index out of range")) {
-            return "Invalid parameters for data operation.";
-        } else if (message.contains("cannot be null")) {
-            return "Invalid data: Required field is missing.";
-        } else if (message.contains("Data truncated")) {
-            return "Invalid data: Field value is out of range or invalid.";
-        } else if (message.contains("foreign key constraint fails")) {
-            return "Invalid reference: Related data is missing or invalid.";
-        }
+    public String extractSafeMessage(String rawMessage) {
+        if (rawMessage == null) return "Unknown database error";
 
-        return message;
+        if (rawMessage.contains("duplicate key value")) {
+            return "Data already exists (Duplicate Entry).";
+        } else if (rawMessage.contains("bad SQL grammar")) {
+            return "System Error: Invalid Query Operation.";
+        } else if (rawMessage.contains("Parameter index out of range")) {
+            return "System Error: Invalid parameters.";
+        } else if (rawMessage.contains("cannot be null")) {
+            return "Invalid data: Required field is missing.";
+        } else if (rawMessage.contains("Data truncated")) {
+            return "Invalid data: Input too long or invalid format.";
+        } else if (rawMessage.contains("foreign key constraint fails") || rawMessage.contains("violates foreign key constraint")) {
+            return "Invalid reference: Related data does not exist or is currently used.";
+        }
+        
+        // Log pesan aslinya untuk developer (biar bisa debug)
+        log.warn("Unhandled SQL Error Message: {}", rawMessage);
+        
+        return "Database operation failed.";
     }
 }

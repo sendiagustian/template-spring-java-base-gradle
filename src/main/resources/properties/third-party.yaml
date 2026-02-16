@@ -1,0 +1,19 @@
+spring:
+  mail:
+    host: mail.sendistudio.id
+    port: 587
+    username: admin@sendistudio.id
+    password: "#ikanSepatBiru3"
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: false
+          ssl:
+            trust: "*"
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000

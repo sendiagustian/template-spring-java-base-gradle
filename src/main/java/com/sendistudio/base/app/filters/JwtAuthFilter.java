@@ -1,4 +1,4 @@
-package com.sendistudio.base.app.configs;
+package com.sendistudio.base.app.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,25 +12,29 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import com.sendistudio.base.app.utils.JwtTokenUtil;
 
 import java.io.IOException;
 
 /*
-    * JWT Authentication Filter Configuration Class
-*/
+ * JWT Authentication Filter Configuration Class
+ */
 @Component
-public class JwtAauthFilterConfig extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtTokenUtil jwtUtil;
+    private JwtTokenUtil.AccessToken jwtUtil;
 
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        FilterChain filterChain
+    ) throws ServletException, IOException {
 
         final String header = request.getHeader("X-API-TOKEN");
         final String username;
@@ -58,8 +62,7 @@ public class JwtAauthFilterConfig extends OncePerRequestFilter {
 
             // Validasi token (bisa cek DB atau signature dll)
             if (jwtUtil.isTokenValid(header, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

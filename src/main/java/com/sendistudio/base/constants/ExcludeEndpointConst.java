@@ -11,12 +11,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @Component
-public class ExcludeEndpoint {
+public class ExcludeEndpointConst {
 
     private List<String> allExcludes = new ArrayList<>();
 
-    public ExcludeEndpoint() {
+    public ExcludeEndpointConst() {
 
+        // Scalar api
+        allExcludes.add("/scalar/**");
+        allExcludes.add("/v3/api-docs/**");
+        allExcludes.add("/api-docs/**");
+        allExcludes.add("/swagger-ui/**");
+        
         // Health Check
         allExcludes.add("/api/service-check");
 

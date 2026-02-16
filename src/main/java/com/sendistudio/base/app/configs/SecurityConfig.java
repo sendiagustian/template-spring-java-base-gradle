@@ -14,7 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.sendistudio.base.constants.ExcludeEndpoint;
+import com.sendistudio.base.app.filters.JwtAuthFilter;
+import com.sendistudio.base.app.handlers.JwtAuthenticationEntryPoint;
+import com.sendistudio.base.constants.ExcludeEndpointConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -29,13 +31,13 @@ import org.springframework.web.cors.CorsConfiguration;
 public class SecurityConfig {
 
     @Autowired
-    private JwtAauthFilterConfig jwtAauthFilterConfig;
+    private JwtAuthFilter jwtAauthFilterConfig;
 
     @Autowired
-    private ExcludeEndpoint excludeEndpoint;
+    private ExcludeEndpointConst excludeEndpoint;
 
     @Autowired
-    private AuthenticationEntryPointConfig authenticationEntryPointConfig;
+    private JwtAuthenticationEntryPoint authenticationEntryPointConfig;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

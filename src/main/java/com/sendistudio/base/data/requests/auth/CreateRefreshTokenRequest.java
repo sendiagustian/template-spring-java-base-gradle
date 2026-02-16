@@ -1,0 +1,17 @@
+package com.sendistudio.base.data.requests.auth;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class CreateRefreshTokenRequest {
+    String token;
+    String userId;
+    Long expiresAt;
+    Boolean isRevoked;
+}

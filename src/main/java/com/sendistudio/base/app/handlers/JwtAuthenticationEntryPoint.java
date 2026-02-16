@@ -1,6 +1,6 @@
-package com.sendistudio.base.app.configs;
+package com.sendistudio.base.app.handlers;
 
-import com.sendistudio.base.data.responses.ErrorResponse;
+import com.sendistudio.base.data.responses.global.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * dan mengembalikan response JSON standar.
  */
 @Component
-public class AuthenticationEntryPointConfig implements AuthenticationEntryPoint {
+public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

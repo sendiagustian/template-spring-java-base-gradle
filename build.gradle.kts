@@ -1,12 +1,12 @@
 plugins {
 	java
-	id("org.springframework.boot") version "4.0.1"
+	id("org.springframework.boot") version "4.0.2"
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "com.sendistudio"
 version = "0.0.1-SNAPSHOT"
-description = "Base project for Spring Boot with gradle"
+description = "Sene API"
 
 java {
 	toolchain {
@@ -28,6 +28,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+    
+	// mail
+	implementation("org.springframework.boot:spring-boot-starter-mail")
+    
+	// Resilience4j
 	implementation("io.github.resilience4j:resilience4j-spring-boot3:2.2.0")
 	implementation("org.springframework.boot:spring-boot-starter-aop:3.5.9")
 
@@ -42,7 +47,7 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
 
 	// Security
-	implementation("org.springframework.boot:spring-boot-starter-security:4.0.1")
+	implementation("org.springframework.boot:spring-boot-starter-security:4.0.2")
 
 	// annotation processor
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -58,6 +63,10 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.14.1")
+    
+    // Scalar API Reference
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-scalar:2.8.15")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.41")
 }
 
 tasks.withType<Test> {

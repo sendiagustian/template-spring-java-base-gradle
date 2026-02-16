@@ -25,7 +25,7 @@ public class DatabasePropertiesTest {
 
     @Test
     void testDatabase() {
-        String secret = database.getSecret();
+        String secret = database.getSecretEncryptor();
         DatabaseProperties.Local local = database.getLocal();
         DatabaseProperties.Dev dev = database.getDev();
         DatabaseProperties.Prod prod = database.getProd();
