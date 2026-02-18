@@ -15,10 +15,21 @@ logging:
               authentication:
                 configuration:
                   InitializeUserDetailsBeanManagerConfigurer: OFF
+        web:
+          servlet:
+            mvc:
+              method:
+                annotation:
+                  ExceptionHandlerExceptionResolver: WARN # Suppress stack trace dari exception handler
+        jdbc:
+          support:
+            SQLStateSQLExceptionTranslator: WARN # Suppress SQL error stack trace
     io.github.resilience4j: DEBUG
     io.github.resilience4j.circuitbreaker: DEBUG
+    com.sendistudio.base: DEBUG # Enable debug untuk package kita sendiri
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}] [%thread] %-5level %logger{36} - %msg%n"
+    # Format console dengan warna dan lebih mudah dibaca
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([%X{traceId}]){magenta} %clr([%thread]){blue} %clr(%-5level){cyan} %clr(%logger{36}){yellow} %clr(-){faint} %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}] [%thread] %-5level %logger{36} - %msg%n"
   file:
     name: build/logs/app.log

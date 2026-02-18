@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -61,7 +62,7 @@ public class GlobalExceptionHandler {
 
     // --- DATABASE HANDLERS (Level Up) ---
 
-    // 1. Handle Duplikat / Foreign Key Error (Ini yang return 409/400)
+    // Handle Duplikat / Foreign Key Error (Ini yang return 409/400)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<WebResponse> handleDataIntegrity(DataIntegrityViolationException ex) {
         // Ambil pesan root cause paling dalam
@@ -72,37 +73,46 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.CONFLICT, safeMessage);
     }
 
-    // 2. Handle Koneksi Mati (Ini yang return 503)
+    // Handle Bad SQL Grammar (Query Error / Table Not Found)
+    @ExceptionHandler(BadSqlGrammarException.class)
+    public ResponseEntity<WebResponse> handleBadSqlGrammar(BadSqlGrammarException ex) {
+        log.error("SQL Grammar Error", ex);
+        String rootMsg = ex.getRootCause() != null ? ex.getRootCause().getMessage() : ex.getMessage();
+        String safeMessage = errorUtil.extractSafeMessage(rootMsg);
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, safeMessage);
+    }
+
+    // Handle Koneksi Mati (Ini yang return 503)
     @ExceptionHandler(CannotGetJdbcConnectionException.class)
     public ResponseEntity<WebResponse> handleDbConnection(CannotGetJdbcConnectionException ex) {
-        log.error("Database Down: ", ex);
+        log.error("Database Connection Failed", ex);
 
         return buildErrorResponse(HttpStatus.SERVICE_UNAVAILABLE,
                 "Database connection failed. Please try again later.");
     }
 
-    // 3. Handle Error DB Umum Lainnya (Sisa-sisa error query)
+    // Handle Error DB Umum Lainnya (Sisa-sisa error query)
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<WebResponse> handleGeneralDb(DataAccessException ex) {
         log.error("Database General Error: ", ex);
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Database processing error.");
     }
 
-    // 4. Handle conflict error yang dilempar manual dari service
+    // Handle conflict error yang dilempar manual dari service
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<WebResponse> handleConflict(ConflictException ex) {
         log.warn("Conflict: {}", ex.getMessage());
         return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
-    // 5. Menangkap error otomatis dari JdbcTemplate (queryForObject kosong)
+    // Menangkap error otomatis dari JdbcTemplate (queryForObject kosong)
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<WebResponse> handleEmptyResult(EmptyResultDataAccessException ex) {
         log.warn("Data not found in database: {}", ex.getMessage());
         return buildErrorResponse(HttpStatus.NOT_FOUND, "The requested data was not found.");
     }
 
-    // 6. Menangkap error manual yang kamu lempar dari Service
+    // Menangkap error manual yang kamu lempar dari Service
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<WebResponse> handleResourceNotFound(ResourceNotFoundException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());

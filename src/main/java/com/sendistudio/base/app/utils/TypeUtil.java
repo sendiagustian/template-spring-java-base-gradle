@@ -95,6 +95,47 @@ public class TypeUtil {
         }
     }
 
+    /**
+     * Convert object to JSON string
+     */
+    public String convertToJsonString(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (Exception e) {
+            throw new RuntimeException("Error converting object to JSON string", e);
+        }
+    }
+
+    /**
+     * Convert JSON string to object
+     */
+    public <T> T convertFromJsonString(String json, Class<T> clazz) {
+        try {
+            return objectMapper.readValue(json, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException("Error converting JSON string to object: " + clazz.getSimpleName(), e);
+        }
+    }
+
+    
+    /**
+     * Generic helper method to merge field: use newValue if not null, otherwise use existing value
+     * 
+     * @param <T> Type of the field value
+     * @param <E> Type of the existing object
+     * @param newValue New value from request
+     * @param existing Existing object (can be any type)
+     * @param getter Function to extract field from existing object
+     * @return Merged value
+     */
+    public <T, E> T mergeField(T newValue, E existing, java.util.function.Function<E, T> getter) {
+        if (newValue != null) {
+            return newValue;
+        }
+        return existing != null ? getter.apply(existing) : null;
+    }
+
+
     @AllArgsConstructor
     public static class StringRowMapper implements RowMapper<String> {
 

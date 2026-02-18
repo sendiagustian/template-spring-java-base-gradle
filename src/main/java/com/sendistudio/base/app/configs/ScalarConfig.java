@@ -20,6 +20,9 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.Components;
 
 @Configuration
 public class ScalarConfig {
@@ -43,10 +46,13 @@ public class ScalarConfig {
         String allowedHost;
 
         if ("dev".equals(activeProfile)) {
-            allowedHost = serverProperties.getDev().getHost() + ":" + serverProperties.getDev().getPort();
+            // For dev environment, use HTTPS URL without port (reverse proxy handles port mapping)
+            allowedHost = serverProperties.getDev().getHost();
         } else if ("prod".equals(activeProfile)) {
+            // For production, use the configured host as-is
             allowedHost = serverProperties.getProd().getHost();
         } else {
+            // For local development, include port
             allowedHost = serverProperties.getLocal().getHost() + ":" + serverProperties.getLocal().getPort();
         }
 
@@ -69,6 +75,26 @@ public class ScalarConfig {
             tags.add(new Tag().name(tag.getName()).description(tag.getDescription()));
         }
 
-        return new OpenAPI().info(info).tags(tags).servers(List.of(server));
+        // Define X-API-TOKEN security scheme
+        SecurityScheme apiTokenScheme = new SecurityScheme()
+            .type(SecurityScheme.Type.APIKEY)
+            .in(SecurityScheme.In.HEADER)
+            .name("X-API-TOKEN")
+            .description("JWT or API token untuk autentikasi");
+
+        // Add security requirement
+        SecurityRequirement securityRequirement = new SecurityRequirement()
+            .addList("X-API-TOKEN");
+
+        // Build Components with security schemes
+        Components components = new Components()
+            .addSecuritySchemes("X-API-TOKEN", apiTokenScheme);
+
+        return new OpenAPI()
+            .info(info)
+            .tags(tags)
+            .servers(List.of(server))
+            .components(components)
+            .addSecurityItem(securityRequirement);
     }
 }

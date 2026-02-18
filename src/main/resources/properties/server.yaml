@@ -12,3 +12,18 @@ sendistudio:
       address: 0.0.0.0
       host: https://example.com
       port: 8000
+
+# Configure server to handle reverse proxy headers
+server:
+  address: ${sendistudio.server.${spring.profiles.active:local}.address}
+  port: ${sendistudio.server.${spring.profiles.active:local}.port}
+  forward-headers-strategy: framework # Enable X-Forwarded headers support
+  tomcat:
+    remoteip:
+      remote-ip-header: x-forwarded-for
+      protocol-header: x-forwarded-proto
+  error:
+    include-stacktrace: never # Never include stack trace in response
+    include-exception: false # Don't include exception class name
+    include-message: always # Include error message
+    include-binding-errors: always # Include validation errors

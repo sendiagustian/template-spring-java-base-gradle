@@ -5,6 +5,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import com.sendistudio.base.app.handlers.exceptions.EmailServiceException;
 import com.sendistudio.base.data.requests.MailSendMessageRequest;
 
 import jakarta.mail.internet.MimeMessage;
@@ -35,7 +36,7 @@ public class MailHelper {
             mailSender.send(message);
             return true;
         } catch (Exception e) {
-            System.err.println("Error sending email: " + e.getMessage());
+            log.error("Error sending email: {}", e.getMessage(), e);
             return false;
         }
     }
@@ -73,7 +74,7 @@ public class MailHelper {
         } catch (Exception e) {
             log.error("Error sending template email: {}", e.getMessage(), e);
             // throw runtime exception so callers (services) can react (rollback, retry, etc.)
-            throw new RuntimeException("Error sending template email: " + e.getMessage(), e);
+            throw new EmailServiceException("Error sending template email: " + e.getMessage());
         }
     }
 }
