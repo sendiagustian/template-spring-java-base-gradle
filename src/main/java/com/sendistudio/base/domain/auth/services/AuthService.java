@@ -55,8 +55,6 @@ public class AuthService {
         } catch (BadCredentialsException e) {
             // Di sini kita tangkap, lalu lempar ulang dengan pesan custom
             throw new BadCredentialsException("Invalid email or password");
-        } catch (Exception e) {
-            throw new RuntimeException("Error during login process: " + e.getMessage());
         }
 
         // 2. Jika lolos (password benar), kita ambil data user-nya
@@ -161,7 +159,7 @@ public class AuthService {
         Boolean isUpserted = forgotPasswordTokenSource.upsertToken(user.getId(), token, expiresAt, ipHelper.getClientIp(servletRequest));
 
         if (!isUpserted) {
-            throw new RuntimeException("Failed to request forgot password. Please try again.");
+            throw new InternalServerException("Failed to request forgot password. Please try again.");
         }
 
         // 3. Buat URL reset password dengan menyertakan token dan redirectUrl
@@ -215,7 +213,7 @@ public class AuthService {
         UserModel currentUser = AppUtil.getCurrentUser();
 
         String refreshToken = refreshTokenSource.getActiveRefreshTokenByUserId(currentUser.getId()).orElseThrow(
-                () -> new RuntimeException("Active refresh token not found for user"));
+                () -> new InternalServerException("Active refresh token not found for user"));
 
         // Revoke refresh token
         Boolean isRevoked = refreshTokenSource.revokeRefreshToken(refreshToken);

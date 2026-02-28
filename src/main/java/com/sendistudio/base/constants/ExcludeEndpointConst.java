@@ -28,6 +28,10 @@ public class ExcludeEndpointConst {
 
         // Auth
         allExcludes.add("/api/auth/login");
+        allExcludes.add("/api/auth/refresh-token");
+        allExcludes.add("/api/auth/register-tenant");
+        allExcludes.add("/api/auth/forgot-password");
+        allExcludes.add("/api/auth/reset-password");
     }
 
 }

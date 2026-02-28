@@ -1,0 +1,20 @@
+sendistudio:
+  services:
+    local:
+      storage:
+        base-url: http://localhost:5051
+        upload-url: http://localhost:5051/files/upload
+      any-service:
+        base-url: http://localhost:8080
+    dev:
+      storage:
+        base-url: ${SENDISTUDIO_STORAGE_BASE_URL:http://sane-dev-service-storage:8002}
+        upload-url: ${SENDISTUDIO_STORAGE_UPLOAD_URL:http://sane-dev-service-storage:8002/files/upload}
+      any-service:
+        base-url: ${SENDISTUDIO_ANY_SERVICE_BASE_URL:http://dev-any-service.sendistudio.com}
+    prod:
+      storage:
+        base-url: ${SENDISTUDIO_STORAGE_BASE_URL:http://sane-service-storage:8200}
+        upload-url: ${SENDISTUDIO_STORAGE_UPLOAD_URL:http://sane-service-storage:8200/files/upload}
+      any-service:
+        base-url: ${SENDISTUDIO_ANY_SERVICE_BASE_URL:http://any-service.sendistudio.com}
