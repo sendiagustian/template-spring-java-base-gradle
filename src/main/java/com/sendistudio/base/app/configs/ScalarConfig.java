@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -20,33 +19,29 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.Components;
 
 @Configuration
 public class ScalarConfig {
 
-    @Autowired
-    Environment env;
-
-    @Autowired
-    AppProperties appProperties;
-
-    @Autowired
-    ServerProperties serverProperties;
-
-    @Autowired
-    ScalarTagConst scalarTagConst;
+    static final String HEADER_KEY = "X-API-TOKEN";
 
     @Bean
-    OpenAPI customOpenAPI() {
+    OpenAPI customOpenAPI(Environment env, ServerProperties serverProperties, AppProperties appProperties, ScalarTagConst scalarTagConst) {
 
         String activeProfile = env.getActiveProfiles().length > 0 ? env.getActiveProfiles()[0] : "local";
         String allowedHost;
 
         if ("dev".equals(activeProfile)) {
-            allowedHost = serverProperties.getDev().getHost() + ":" + serverProperties.getDev().getPort();
+            // For dev environment, use HTTPS URL without port (reverse proxy handles port mapping)
+            allowedHost = serverProperties.getDev().getHost();
         } else if ("prod".equals(activeProfile)) {
+            // For production, use the configured host as-is
             allowedHost = serverProperties.getProd().getHost();
         } else {
+            // For local development, include port
             allowedHost = serverProperties.getLocal().getHost() + ":" + serverProperties.getLocal().getPort();
         }
 
@@ -69,6 +64,26 @@ public class ScalarConfig {
             tags.add(new Tag().name(tag.getName()).description(tag.getDescription()));
         }
 
-        return new OpenAPI().info(info).tags(tags).servers(List.of(server));
+        // Define X-API-TOKEN security scheme
+        SecurityScheme apiTokenScheme = new SecurityScheme()
+            .type(SecurityScheme.Type.APIKEY)
+            .in(SecurityScheme.In.HEADER)
+            .name(HEADER_KEY)
+            .description("JWT or API token untuk autentikasi");
+
+        // Add security requirement
+        SecurityRequirement securityRequirement = new SecurityRequirement()
+            .addList(HEADER_KEY);
+
+        // Build Components with security schemes
+        Components components = new Components()
+            .addSecuritySchemes(HEADER_KEY, apiTokenScheme);
+
+        return new OpenAPI()
+            .info(info)
+            .tags(tags)
+            .servers(List.of(server))
+            .components(components)
+            .addSecurityItem(securityRequirement);
     }
 }

@@ -1,4 +1,4 @@
-package com.sendistudio.base.domain.services;
+package com.sendistudio.base.domain.auth.services;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,9 +23,9 @@ import com.sendistudio.base.app.utils.JwtTokenUtil;
 import com.sendistudio.base.data.requests.auth.*;
 import com.sendistudio.base.data.responses.LoginResponse;
 import com.sendistudio.base.data.requests.MailSendMessageRequest;
-import com.sendistudio.base.domain.sources.ForgotPasswordTokenSource;
-import com.sendistudio.base.domain.sources.RefreshTokenSource;
-import com.sendistudio.base.domain.sources.UserSource;
+import com.sendistudio.base.domain.auth.sources.ForgotPasswordTokenSource;
+import com.sendistudio.base.domain.auth.sources.RefreshTokenSource;
+import com.sendistudio.base.domain.auth.sources.UserSource;
 
 import jakarta.servlet.http.HttpServletRequest;
 

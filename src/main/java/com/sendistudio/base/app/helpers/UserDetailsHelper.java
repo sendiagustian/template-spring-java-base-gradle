@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.sendistudio.base.data.models.UserModel;
-import com.sendistudio.base.domain.sources.UserSource;
+import com.sendistudio.base.domain.auth.sources.UserSource;
 
 import lombok.RequiredArgsConstructor;
 

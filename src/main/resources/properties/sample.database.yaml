@@ -1,0 +1,28 @@
+sendistudio:
+  secret:
+    secretEncryptor: MyPZtlVCOJl40TH5K732MFdMGEK9Pfr2
+    secretToken: dZBTZi650EHsizMRxnLUvx5Fe9faPxZc
+    secretRefresh: M6pNoqEVTF1JZP2IvZFMfaVdvEaoBNZM
+    secretForgotPassword: 9khluT6y3VvAkmRSfVSCZ5OpwudKe5xx
+
+  database:
+    local:
+      host: ${DB_HOST:localhost}
+      port: ${DB_PORT:5432}
+      user: ${DB_USER:tidP5MNU90GDdA13I5LVBsemVdImL/N8}
+      pass: ${DB_PASS:9NZYUkBEmsQpBpDN24sItKLGr1QZlSMa}
+      name: ${DB_NAME:db_sene}
+
+    dev:
+      host: ${DB_HOST:localhost}
+      port: ${DB_PORT:5432}
+      user: ${DB_USER:sample_user}
+      pass: ${DB_PASS:sample_password}
+      name: ${DB_NAME:sample_database}
+
+    prod:
+      host: ${DB_HOST:localhost}
+      port: ${DB_PORT:5432}
+      user: ${DB_USER:sample_user}
+      pass: ${DB_PASS:sample_password}
+      name: ${DB_NAME:sample_database}

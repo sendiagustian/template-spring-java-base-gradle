@@ -1,4 +1,4 @@
-package com.sendistudio.base.domain.sources;
+package com.sendistudio.base.domain.auth.sources;
 
 import java.util.Optional;
 

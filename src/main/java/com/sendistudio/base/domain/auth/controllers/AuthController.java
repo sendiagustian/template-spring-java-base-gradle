@@ -1,4 +1,4 @@
-package com.sendistudio.base.domain.controllers;
+package com.sendistudio.base.domain.auth.controllers;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,7 +17,7 @@ import com.sendistudio.base.data.requests.auth.ResetPasswordRequest;
 import com.sendistudio.base.data.responses.LoginResponse;
 import com.sendistudio.base.data.responses.global.DataResponse;
 import com.sendistudio.base.data.responses.global.WebResponse;
-import com.sendistudio.base.domain.services.AuthService;
+import com.sendistudio.base.domain.auth.services.AuthService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

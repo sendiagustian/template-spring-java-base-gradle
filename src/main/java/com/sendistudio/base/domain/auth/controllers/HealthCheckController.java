@@ -1,4 +1,4 @@
-package com.sendistudio.base.domain.controllers;
+package com.sendistudio.base.domain.auth.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

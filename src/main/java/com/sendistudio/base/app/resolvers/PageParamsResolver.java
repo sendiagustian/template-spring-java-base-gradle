@@ -24,10 +24,16 @@ public class PageParamsResolver implements HandlerMethodArgumentResolver {
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 
         // 1. Ambil konfigurasi default dari Annotation
-        PageParams pageParams = parameter.getParameterAnnotation(PageParams.class);
-        int page = pageParams.defaultPage();
-        int size = pageParams.defaultSize();
-        int maxSize = pageParams.maxSize();
+    PageParams pageParams = parameter.getParameterAnnotation(PageParams.class);
+        // protection against static analysis NPE warning: if annotation is missing, fall back to sensible defaults
+        int page = 1;
+        int size = 10;
+        int maxSize = 100;
+        if (pageParams != null) {
+            page = pageParams.defaultPage();
+            size = pageParams.defaultSize();
+            maxSize = pageParams.maxSize();
+        }
 
         // 2. Ambil nilai dari Query Param URL (?page=...&size=...)
         String pageStr = webRequest.getParameter("page");
