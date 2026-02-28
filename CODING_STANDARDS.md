@@ -1,16 +1,17 @@
-# SeneApi Feature Implementation Guide
+# Base Feature Implementation Guide
 
-This document outlines the strict step-by-step workflow for implementing new features in the **SeneApi** project. AI Agents must follow this pattern to maintain consistency across the codebase.
+This document outlines the strict step-by-step workflow for implementing new features in the **Base** project. AI Agents must follow this pattern to maintain consistency across the codebase.
 
 ## Core Architecture
-The project follows a **Domain-Driven Design (DDD)** structure with **Native SQL** execution using a custom `QueryUtil`.
+The project follows a **Strict Domain-Driven Design (DDD)** structure with **Native SQL** execution using a custom `QueryUtil`.
+All data structures (models, DTOs, schemas) MUST be collocated within their respective domain's `_data` folder.
 
 **Base Package:** `com.sendistudio.base`
 
 ---
 
 ## Step 1: Define Database Schema
-**Location:** `src/main/java/com/sendistudio/base/data/schemas`
+**Location:** `src/main/java/com/sendistudio/base/domain/{module}/_data/schemas`
 
 Create or update a Schema class to define table names and column names as constants. This prevents "magic strings" in SQL queries.
 
@@ -19,31 +20,25 @@ Create or update a Schema class to define table names and column names as consta
 
 ```java
 public class UserSchema {
-    public static final String NAME = "core";
+    public static final String SCHEMA_NAME = "core";
+    public static final String TABLE = SCHEMA_NAME + ".users";
 
-    public static class Users {
-        // Selalu gunakan format schema.table agar aman
-        public static final String TABLE = NAME + ".users";
-
-        public static final String ID = "id";
-        public static final String TENANT_ID = "tenant_id";
-        public static final String EMAIL = "email";
-        public static final String PASSWORD_HASH = "password_hash";
-        public static final String GLOBAL_ROLE = "global_role";
-        public static final String CREATED_AT = "created_at";
-        public static final String UPDATED_AT = "updated_at";
-        public static final String STATUS = "status";
-    }
-
+    public static final String ID = "id";
+    public static final String TENANT_ID = "tenant_id";
+    public static final String EMAIL = "email";
+    public static final String PASSWORD_HASH = "password_hash";
+    public static final String GLOBAL_ROLE = "global_role";
+    public static final String CREATED_AT = "created_at";
+    public static final String UPDATED_AT = "updated_at";
+    public static final String STATUS = "status";
 }
-
 ```
 
 ---
 
 ## Step 2: Create Model & RowMapper
 
-**Location:** `src/main/java/com/sendistudio/base/data/models`
+**Location:** `src/main/java/com/sendistudio/base/domain/{module}/_data/models`
 
 Create a POJO that represents the database entity.
 
@@ -69,17 +64,14 @@ public class ContactModel {
         }
     }
 }
-
 ```
 
 ---
 
 ## Step 3: Create DTOs (Requests & Responses)
 
-**Location:** `src/main/java/com/sendistudio/base/data`
-
-* **Requests:** `.../requests/{feature}/CreateContactRequest.java`
-* **Responses:** `.../responses/{feature}/ContactResponse.java` (Optional, can reuse Model if data is safe).
+**Location:** * **Requests:** `src/main/java/com/sendistudio/base/domain/{module}/_data/requests/CreateContactRequest.java`
+* **Responses:** `src/main/java/com/sendistudio/base/domain/{module}/_data/responses/ContactResponse.java`
 
 Use Java Bean Validation (`@NotBlank`, `@NotNull`, etc.) in Request DTOs.
 
@@ -89,7 +81,6 @@ public class CreateContactRequest {
     @NotBlank(message = "Name is required")
     private String name;
 }
-
 ```
 
 ---
@@ -120,7 +111,6 @@ public class ContactSource {
         return query.query(sql, new ContactModel.ContactModelRowMapper(), tenantId);
     }
 }
-
 ```
 
 ---
@@ -145,7 +135,6 @@ public class ContactService {
         return contactSource.findAll(tenantId);
     }
 }
-
 ```
 
 ---
@@ -161,7 +150,6 @@ public class ScalarTagConst {
     // ... existing tags
     public static final String CRM_CONTACT = "CRM - Contacts";
 }
-
 ```
 
 ---
@@ -192,7 +180,6 @@ public class ContactController {
         return ResponseEntity.ok(result);
     }
 }
-
 ```
 
 ---
@@ -205,17 +192,16 @@ If you need to verify database schemas, debug SQL errors, or check if data is in
 - Read Schema: Use read_schema tool to inspect table structure before writing queries.
 - Verify Data: Use run_select_query to check actual data in the database.
 - Do NOT Guess: Never assume column names or data types; always verify with MCP tools if unsure.
+
 ---
 
 ## Summary Checklist for AI Agent
 
-1. [ ] **Schema:** Constants defined?
-2. [ ] **Model:** POJO + RowMapper created?
-3. [ ] **DTO:** Request/Response classes created?
+1. [ ] **Schema:** Defined in `domain/{module}/_data/schemas`?
+2. [ ] **Model:** POJO + RowMapper created in `domain/{module}/_data/models`?
+3. [ ] **DTO:** Request/Response classes created in `domain/{module}/_data/requests` & `responses`?
 4. [ ] **Source:** SQL written using `QueryUtil` & Schema constants?
 5. [ ] **Service:** Logic implemented?
 6. [ ] **ScalarTag:** Tag constant added?
 7. [ ] **Controller:** Endpoint exposed with correct Tag?
-8. [ ] Verification: Database structure/data verified using MCP Tools?
-
-```
+8. [ ] **Verification:** Database structure/data verified using MCP Tools?
