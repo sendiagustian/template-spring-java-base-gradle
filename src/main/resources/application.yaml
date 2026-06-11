@@ -1,39 +1,49 @@
 application:
-  version: v1.0.0
-  name: base
-  desc: API documentation for API Base Spring Boot
-  contact:
-    name: Sendi Agustian
-    email: admin@sendistudio.id
-
-# Server configuration
-server:
-  error:
-    include-message: always
-    include-binding-errors: never
-    include-stacktrace: never
-
-# Debugging configuration
-devtools:
-  restart:
-    enabled: true
-    additional-paths: src/main/resources
-  add-properties: false
+    version: v1.0.0
+    name: Sane API
+    desc: API documentation for API Base Spring Boot
+    contact:
+        name: Sendi Agustian
+        email: admin@sendistudio.id
+    app-vars:
+        secret:
+        secretEncryptor: MyPZtlVCOJl40TH5K732MFdMGEK9Pfr2
+        secretToken: dZBTZi650EHsizMRxnLUvx5Fe9faPxZc
+        secretRefresh: M6pNoqEVTF1JZP2IvZFMfaVdvEaoBNZM
+        secretForgotPassword: 9khluT6y3VvAkmRSfVSCZ5OpwudKe5xx
 
 spring:
-  # Banner configuration
-  banner:
-    location: "classpath:assets/banner.txt"
+    # Debugging configuration
+    devtools:
+        add-properties: false
+        restart:
+            enabled: true
+            additional-paths: src
+    # Banner configuration
+    banner:
+        location: "classpath:assets/banner.txt"
 
-  # External configuration files
-  config:
-    import:
-      - "classpath:properties/server.yaml"
-      - "classpath:properties/logging.yaml"
+    # External configuration files
+    config:
+        import:
+            - "classpath:properties/server.yaml"
+            - "classpath:properties/logging.yaml"
+            - "classpath:properties/database.yaml"
+            - "classpath:properties/scalar.yaml"
 
-  # Web configuration
-  mvc:
-    throw-exception-if-no-handler-found: true # Paksa throw error 404
-  web:
-    resources:
-      add-mappings: false # Matikan static resource (css/js) agar murni jadi API
+    # Web configuration
+    web:
+        resources:
+            add-mappings: true
+        error:
+            include-message: always
+            include-binding-errors: never
+            include-stacktrace: never
+
+    # Multipart configuration for file uploads
+    servlet:
+        multipart:
+            enabled: true
+            max-file-size: 10MB
+            max-request-size: 10MB
+            file-size-threshold: 2KB

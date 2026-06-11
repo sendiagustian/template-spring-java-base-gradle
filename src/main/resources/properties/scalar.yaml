@@ -1,0 +1,17 @@
+springdoc:
+  writer-with-order-by-keys: true
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    enabled: false
+  use-management-port: false
+  show-actuator: false
+
+scalar:
+  path: /api/docs
+  enabled: ${SCALAR_ENABLED:true} # Set SCALAR_ENABLED=false di production via Docker ENV
+  url: /v3/api-docs              # URL ke OpenAPI spec JSON — wajib diisi
+  telemetry: false               # Disable outbound calls ke registry.scalar.com
+  agent:
+    disabled: true               # Disable AI agent panel — prevents @share/* registry fetch

@@ -12,6 +12,9 @@ import org.springframework.scheduling.annotation.Async;
 
 import com.sendistudio.base.app.properties.ServerProperties;
 
+/*
+    * Server Configuration Class
+*/
 @Configuration
 public class ServerConfig implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 

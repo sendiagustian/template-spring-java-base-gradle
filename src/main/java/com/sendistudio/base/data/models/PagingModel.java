@@ -11,5 +11,5 @@ public class PagingModel {
     private Integer size;
     private Integer totalData;
     private Integer currentPage;
-    private Integer totalPage;
+    private Integer totalPages;
 }

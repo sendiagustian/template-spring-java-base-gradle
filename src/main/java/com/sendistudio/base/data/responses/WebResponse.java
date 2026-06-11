@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class WebResponse {
+public class WebResponse {
     private Boolean status;
+    private String messages;
 }
