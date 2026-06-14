@@ -3,7 +3,6 @@ package com.sendistudio.base.app.configs;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,14 +29,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Autowired
-    private JwtAuthFilter jwtAauthFilterConfig;
+    private final JwtAuthFilter jwtAauthFilterConfig;
 
-    @Autowired
-    private ExcludeEndpointConst excludeEndpoint;
+    private final ExcludeEndpointConst excludeEndpoint;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint authenticationEntryPointConfig;
+    private final JwtAuthenticationEntryPoint authenticationEntryPointConfig;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

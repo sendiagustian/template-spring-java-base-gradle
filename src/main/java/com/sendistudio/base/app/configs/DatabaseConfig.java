@@ -2,7 +2,6 @@ package com.sendistudio.base.app.configs;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -11,18 +10,19 @@ import com.sendistudio.base.app.properties.DatabaseProperties;
 import com.sendistudio.base.app.properties.DatabaseProperties.Env;
 import com.zaxxer.hikari.HikariDataSource;
 
+import lombok.RequiredArgsConstructor;
+
 /*
  * Database Configuration Class
  * Default: SQLite (local). Swap driver + url in database.yaml for PostgreSQL/MySQL.
  */
 @Configuration
+@RequiredArgsConstructor
 public class DatabaseConfig {
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
 
-    @Autowired
-    private DatabaseProperties databaseProperties;
+    private final DatabaseProperties databaseProperties;
 
     @Bean
     DataSource dataSource() {

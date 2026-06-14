@@ -3,7 +3,6 @@ package com.sendistudio.base.app.configs;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Configuration;
@@ -12,17 +11,18 @@ import org.springframework.scheduling.annotation.Async;
 
 import com.sendistudio.base.app.properties.ServerProperties;
 
+import lombok.RequiredArgsConstructor;
+
 /*
     * Server Configuration Class
 */
 @Configuration
+@RequiredArgsConstructor
 public class ServerConfig implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
-    @Autowired
-    Environment env;
+    private final Environment env;
 
-    @Autowired
-    ServerProperties server;
+    private final ServerProperties server;
 
     @Override
     @Async

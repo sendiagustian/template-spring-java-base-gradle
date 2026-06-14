@@ -1,6 +1,5 @@
 package com.sendistudio.base.domain.scalar.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +10,7 @@ import com.sendistudio.base.domain.scalar.services.FaviconService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Controller to handle trailing slash redirects for API documentation
@@ -19,17 +19,17 @@ import jakarta.servlet.http.HttpServletResponse;
  * serves /v3/api-docs
  */
 @RestController
+@RequiredArgsConstructor
 @Tag(name = ScalarTagConst.API_DOCS)
 public class ApiDocsRedirectController {
+
+    private FaviconService faviconService;
 
     @GetMapping("/v3/api-docs/")
     public ResponseEntity<Void> redirectV3ApiDocs(HttpServletResponse response) {
         response.setHeader("Location", "/v3/api-docs");
         return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).build();
     }
-
-    @Autowired
-    private FaviconService faviconService;
 
     @GetMapping("/favicon.svg")
     public ResponseEntity<String> favicon() {

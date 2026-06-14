@@ -4,7 +4,6 @@ import javax.sql.DataSource;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,12 +12,14 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.sendistudio.base.app.properties.AppProperties;
 
+import lombok.RequiredArgsConstructor;
+
 @ActiveProfiles("local")
+@RequiredArgsConstructor
 @SpringBootTest(classes = AppPropertiesTest.TestApplication.class)
 public class AppPropertiesTest {
 
-    @Autowired
-    private AppProperties properties;
+    private final AppProperties properties;
 
     @MockitoBean
     private DataSource dataSource;
