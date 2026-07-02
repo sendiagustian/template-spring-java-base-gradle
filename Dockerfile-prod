@@ -14,17 +14,20 @@ COPY gradle gradle
 COPY build.gradle.kts .
 COPY settings.gradle.kts .
 
+# Database drivers to bundle (comma-separated) — overrides auto-detection from database.yaml
+ARG DB_ENGINES=postgresql
+
 # Make gradlew executable
 RUN chmod +x gradlew
 
 # Download dependencies (this layer will be cached if dependencies don't change)
-RUN ./gradlew dependencies --no-daemon || true
+RUN ./gradlew dependencies --no-daemon -PdbEngines=${DB_ENGINES} || true
 
 # Copy source code
 COPY src src
 
 # Build the application (skip tests for faster builds, run tests in CI/CD)
-RUN ./gradlew bootJar --no-daemon -x test
+RUN ./gradlew bootJar --no-daemon -x test -PdbEngines=${DB_ENGINES}
 
 # ============================================
 # Stage 2: Runtime stage

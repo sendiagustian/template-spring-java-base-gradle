@@ -1,6 +1,6 @@
 application:
     version: v1.0.0
-    name: Sane API
+    name: Base Template Springboot API
     desc: API documentation for API Base Spring Boot
     contact:
         name: Sendi Agustian

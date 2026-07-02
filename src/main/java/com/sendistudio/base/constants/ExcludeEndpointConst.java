@@ -23,10 +23,13 @@ public class ExcludeEndpointConst {
         allExcludes.add("/v3/api-docs");
         allExcludes.add("/v3/api-docs/**");
         
-        // Static resources
-        allExcludes.add("/api/favicon.ico");
-        allExcludes.add("/api/favicon.svg");
-        allExcludes.add("/api/favicon.png");
+        // Static resources (served by ApiDocsRedirectController at root)
+        allExcludes.add("/favicon.ico");
+        allExcludes.add("/favicon.svg");
+
+        // Health check endpoints
+        allExcludes.add("/api/service-check");
+        allExcludes.add("/api/database-check");
     }
 
 }

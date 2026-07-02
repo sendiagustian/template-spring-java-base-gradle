@@ -12,6 +12,9 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "database")
 public class DatabaseProperties {
 
+    // One engine for the whole project — all profiles use the same database engine
+    private DatabaseEngine engine;
+
     private Env local = new Env();
     private Env dev = new Env();
     private Env prod = new Env();
@@ -19,7 +22,6 @@ public class DatabaseProperties {
     @Getter
     @Setter
     public static class Env {
-        private String driver;
         private String url;
         private String username;
         private String password;

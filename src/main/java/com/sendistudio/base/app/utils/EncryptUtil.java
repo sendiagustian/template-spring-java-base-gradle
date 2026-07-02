@@ -1,7 +1,6 @@
 package com.sendistudio.base.app.utils;
 
 import org.jasypt.encryption.StringEncryptor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -9,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class EncryptUtil {
-
-    private final Environment env;
 
     private final StringEncryptor stringEncryptor;
 

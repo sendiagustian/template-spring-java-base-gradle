@@ -12,6 +12,7 @@ scalar:
   path: /api/docs
   enabled: ${SCALAR_ENABLED:true} # Set SCALAR_ENABLED=false di production via Docker ENV
   url: /v3/api-docs              # URL ke OpenAPI spec JSON — wajib diisi
+  favicon: /favicon.svg          # Absolute path — default "favicon.svg" resolve relatif ke /api/docs
   telemetry: false               # Disable outbound calls ke registry.scalar.com
   agent:
     disabled: true               # Disable AI agent panel — prevents @share/* registry fetch

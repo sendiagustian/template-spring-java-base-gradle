@@ -38,3 +38,6 @@ out/
 
 # Property files
 src/main/resources/properties/database.*
+
+# Local SQLite database
+/data/

@@ -51,6 +51,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.14.1")
+	testCompileOnly("org.projectlombok:lombok")
+	testAnnotationProcessor("org.projectlombok:lombok")
     
     // Scalar API Reference
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-scalar:3.0.2")
@@ -63,10 +65,35 @@ dependencies {
     // JDBC
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 
-    // Database drivers — SQLite is default (local). Add others as needed.
-    runtimeOnly("org.xerial:sqlite-jdbc:3.47.1.0")
-    // runtimeOnly("org.postgresql:postgresql")
-    // runtimeOnly("com.mysql:mysql-connector-j")
+    // Database drivers — bundles every `engine:` found in properties/database.yaml,
+    // so changing the engine there is the only step needed. Override for slim builds
+    // (e.g. Docker) with -PdbEngines=postgresql (comma-separated).
+    // Add a new engine: one entry here + one constant in app/properties/DatabaseEngine.java
+    val supportedDrivers = mapOf(
+        "sqlite"     to "org.xerial:sqlite-jdbc:3.47.1.0",
+        "postgresql" to "org.postgresql:postgresql",        // version from Spring BOM
+        "mysql"      to "com.mysql:mysql-connector-j",      // version from Spring BOM
+        "oracle"     to "com.oracle.database.jdbc:ojdbc11", // version from Spring BOM
+    )
+
+    // Matches `engine: sqlite` and `engine: ${DB_ENGINE:postgresql}` (placeholder default)
+    val engineRegex = Regex("""engine:\s*(?:\$\{[^:}]+:)?([A-Za-z]+)\}?""")
+    val databaseYaml = file("src/main/resources/properties/database.yaml")
+
+    val dbEngines = (findProperty("dbEngines") as String?)
+        ?.split(",")?.map { it.trim().lowercase() }?.filter { it.isNotEmpty() }?.toSet()
+        ?: databaseYaml.takeIf { it.exists() }?.let { yaml ->
+            engineRegex.findAll(yaml.readText()).map { it.groupValues[1].lowercase() }.toSet()
+        }?.takeIf { it.isNotEmpty() }
+        ?: setOf("sqlite").also {
+            logger.warn("No engines found in database.yaml — defaulting to sqlite driver only")
+        }
+
+    dbEngines.forEach { engine ->
+        val artifact = supportedDrivers[engine]
+            ?: error("Unknown dbEngine '$engine'. Supported: ${supportedDrivers.keys}")
+        runtimeOnly(artifact)
+    }
 }
 
 tasks.withType<Test> {

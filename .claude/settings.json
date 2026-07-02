@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk ls *)",
+      "Bash(rtk read *)",
+      "mcp__claude_ai_Context7__resolve-library-id",
+      "Bash(unzip -p 225bbde09641899e2a1983bef10b28c8ec0dd0f/scalar-core-0.5.55-sources.jar)",
+      "Bash(unzip -l 58dc7c4d369bc6c21194072b90454d25b2fb034c/scalar-core-0.5.55.jar)",
+      "Bash(unzip -p 225bbde09641899e2a1983bef10b28c8ec0dd0f/scalar-core-0.5.55-sources.jar com/scalar/maven/core/ScalarProperties.java)",
+      "Bash(unzip -p 58dc7c4d369bc6c21194072b90454d25b2fb034c/scalar-core-0.5.55.jar META-INF/resources/webjars/scalar/index.html)",
+      "Bash(rtk gradlew *)",
+      "Bash(echo \"exit=$?\")",
+      "PowerShell(.\\\\gradlew compileJava --console=plain -q)",
+      "PowerShell(.\\\\gradlew build --console=plain -q 2>&1)",
+      "PowerShell(.\\\\gradlew build --console=plain 2>&1)",
+      "PowerShell(.\\\\gradlew bootRun --args='--spring.profiles.active=local' --console=plain)",
+      "PowerShell($conn = Get-NetTCPConnection -LocalPort 5050 -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1; if \\($conn\\) { Get-Process -Id $conn.OwningProcess | Select-Object Id, ProcessName, Path, StartTime | Format-List })",
+      "PowerShell(try { $conn = Get-NetTCPConnection -LocalPort 5050 -State Listen -ErrorAction Stop | Select-Object -First 1; Get-Process -Id $conn.OwningProcess | Select-Object Id, ProcessName, Path, StartTime | Format-List } catch { \"no listener found: $_\" })",
+      "Bash(seq 1 60)",
+      "Bash(curl -s -o /dev/null http://localhost:5050/api/service-check)",
+      "Bash(break)",
+      "Bash(sleep 1)",
+      "Bash(echo \"--- service-check ---\")"
+    ]
+  }
+}

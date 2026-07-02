@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = ScalarTagConst.API_DOCS)
 public class ApiDocsRedirectController {
 
-    private FaviconService faviconService;
+    private final FaviconService faviconService;
 
     @GetMapping("/v3/api-docs/")
     public ResponseEntity<Void> redirectV3ApiDocs(HttpServletResponse response) {
